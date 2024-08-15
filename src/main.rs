@@ -16,8 +16,8 @@ fn process_args(mut args: env::Args) {
                     .next()
                     .unwrap_or(String::from("No string provided to decode"));
 
-                let mut str_iter = str_to_decode.split(":");
-                let res_str = str_iter.nth(1).unwrap_or("Invalid string...");
+                let str_iter = str_to_decode.split_once(":").unwrap();
+                let res_str = str_iter.1;
                 println!("{:?}", res_str);
             }
             _ => {
