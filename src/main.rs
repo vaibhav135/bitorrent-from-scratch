@@ -16,9 +16,24 @@ fn process_args(mut args: env::Args) {
                     .next()
                     .unwrap_or(String::from("No string provided to decode"));
 
-                let str_iter = str_to_decode.split_once(":").unwrap();
-                let res_str = str_iter.1;
-                println!("{:?}", res_str);
+                if str_to_decode.chars().nth(0).unwrap() == 'i' {
+                    let numeric_str = str_to_decode.trim_matches(|pat| pat == 'i' || pat == 'e');
+                    let size_of_numeric_str = numeric_str.len();
+
+                    if numeric_str == "-0"
+                        || numeric_str == "-"
+                        || (size_of_numeric_str > 1 && numeric_str.get(0..1).unwrap() == "0")
+                    {
+                        println!("Invalid integer...");
+                        return;
+                    }
+
+                    println!("{}", numeric_str.parse::<i64>().unwrap());
+                } else {
+                    let str_iter = str_to_decode.split_once(":").unwrap();
+                    let res_str = str_iter.1;
+                    println!("{:?}", res_str);
+                }
             }
             _ => {
                 println!("Invalid String");
